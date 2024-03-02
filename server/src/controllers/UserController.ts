@@ -1,65 +1,83 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import User from "../models/User";
+import { prisma } from "../utils/prismaHelper";
+import logger from "../logger";
+const jwtSecretKey = process.env.JWT_SECRET_KEY || "";
+const accessTokenExpiresIn = "1h";
+const refreshTokenExpiresIn = "7d";
 
 export const signup = async (req: Request, res: Response) => {
-  const { username, email, password } = req.body;
   try {
-    // Check if the email is already registered
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: "Email already registered" });
-    }
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 12);
-    // Create a new user
-    const newUser = await User.create({
-      username,
-      email,
-      password: hashedPassword,
+    logger.info("Signing up a new user");
+    const { full_name, email, password }: any = req.body;
+    console.log({ full_name, email, password });
+    const existingUser = await prisma.user.findUnique({
+      where: { email: email.toLowerCase() }, // Convert email to lowercase
     });
-    res
-      .status(201)
-      .json({ message: "User created successfully", user: newUser });
+
+    if (existingUser) {
+      res.sendStatus(409); // Conflict
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = await prisma.user.create({
+      data: {
+        full_name,
+        email: email.toLowerCase(), // Convert email to lowercase
+        password: hashedPassword,
+      },
+    });
+
+    res.status(201).json({ success: true, user });
   } catch (error) {
-    console.error("Error signing up user:", error);
-    res.status(500).json({ message: "Server error" });
+    logger.error("Error creating user:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
-  return;
 };
 
 export const signin = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
   try {
-    // Check if the user exists
-    const user = await User.findOne({ email });
+    logger.info("Signing in user");
+    const { email, password } = req.body;
+    console.log({ email, password });
+    const user = await prisma.user.findUnique({
+      where: { email: email.toLowerCase() }, // Convert email to lowercase
+    });
+    console.log({ user });
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(401).json({ error: "Invalid Email Or Password" });
     }
-    // Validate password
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
-      return res.status(401).json({ message: "Invalid password" });
-    }
-    // Generate JWT token
-    const token = jwt.sign(
-      { userId: user._id },
-      process.env.JWT_SECRET || "secret",
-      { expiresIn: "1h" }
+
+    const isPasswordValid = await bcrypt.compare(
+      password,
+      user?.password || ""
     );
-    res.status(200).json({ message: "Login successful", token });
-    return;
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: "Invalid Email Or Password" });
+    }
+
+    const accessToken = jwt.sign(
+      { email: user?.email, id: user?.id },
+      jwtSecretKey,
+      {
+        expiresIn: accessTokenExpiresIn,
+      }
+    );
+
+    const refreshToken = jwt.sign(
+      { email: user?.email, id: user?.id },
+      jwtSecretKey,
+      {
+        expiresIn: refreshTokenExpiresIn,
+      }
+    );
+
+    return res
+      .status(200)
+      .json({ success: true, user, accessToken, refreshToken });
   } catch (error) {
-    console.error("Error logging in user:", error);
-    res.status(500).json({ message: "Server error" });
+    logger.error("Error signing in:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
-  return;
-};
-
-export const test = (req: Request, res: Response) => {
-  const body = req.body;
-  console.log({ body });
-
-  res.status(200).json({ success: true, message: "hello world" });
 };
