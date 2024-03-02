@@ -1,12 +1,31 @@
 {
   "compilerOptions": {
     "target": "ES6",
-    "module": "commonjs",
+    "module": "CommonJS",
     "outDir": "./dist",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true,
+    "lib": ["esnext"],
+    "noImplicitAny": true,
+    "strictPropertyInitialization": false, // Adjust based on your code
+    "noImplicitReturns": true,
+    "strictBindCallApply": true,
+    "alwaysStrict": true,
+    "newLine": "LF", // or "CRLF" for Windows
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "baseUrl": "./src",
+    "paths": {
+      "*": ["*", "src/*"]
+    },
+    "declaration": true,
+    "declarationDir": "dist/types",
+    "isolatedModules": true
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]

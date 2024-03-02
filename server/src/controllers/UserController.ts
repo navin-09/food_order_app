@@ -26,9 +26,10 @@ export const signup = async (req: Request, res: Response) => {
     console.error("Error signing up user:", error);
     res.status(500).json({ message: "Server error" });
   }
+  return;
 };
 
-export const login = async (req: Request, res: Response) => {
+export const signin = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   try {
     // Check if the user exists
@@ -48,46 +49,17 @@ export const login = async (req: Request, res: Response) => {
       { expiresIn: "1h" }
     );
     res.status(200).json({ message: "Login successful", token });
+    return;
   } catch (error) {
     console.error("Error logging in user:", error);
     res.status(500).json({ message: "Server error" });
   }
+  return;
 };
 
-// UserController.ts
+export const test = (req: Request, res: Response) => {
+  const body = req.body;
+  console.log({ body });
 
-export const resetPassword = async (req: Request, res: Response) => {
-  const { email } = req.body;
-  try {
-    // Check if the user exists
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    // Generate a temporary password
-    const temporaryPassword = generateTemporaryPassword();
-    // Update the user's password
-    user.password = temporaryPassword;
-    await user.save();
-    // Send the temporary password to the user via email or other means
-    sendTemporaryPasswordEmail(user.email, temporaryPassword);
-    res.status(200).json({ message: "Temporary password sent to your email" });
-  } catch (error) {
-    console.error("Error resetting password:", error);
-    res.status(500).json({ message: "Server error" });
-  }
-};
-
-// Utility function to generate a temporary password
-const generateTemporaryPassword = (): string => {
-  // Generate a random string or use a library like crypto to generate a secure temporary password
-  return Math.random().toString(36).substring(2, 10);
-};
-
-// Utility function to send temporary password via email (example)
-const sendTemporaryPasswordEmail = (
-  email: string,
-  temporaryPassword: string
-) => {
-  // Implement email sending logic here (e.g., using Nodemailer)
+  res.status(200).json({ success: true, message: "hello world" });
 };
