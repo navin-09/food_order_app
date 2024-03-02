@@ -4,6 +4,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import routes from "./routes";
+import logger from "./logger";
 
 dotenv.config();
 const app = express();
@@ -19,5 +20,5 @@ app.use(
 
 app.use("/api", routes);
 app.listen(3000, () =>
-  console.log(`🚀 Server ready at: http://localhost:3000`)
+  logger.info(`🚀 Server ready at: http://localhost:3000`)
 );

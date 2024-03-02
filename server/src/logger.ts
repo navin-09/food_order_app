@@ -9,11 +9,11 @@ const myFormat = printf(({ level, message, timestamp }) => {
 const logger = winston.createLogger({
   level: "info",
   format: combine(
-    colorize({ all: true }), // Add color to console output
+    colorize({ all: true }),
     timestamp({
-      format: "YYYY-MM-DD HH:mm:ss", // Customize the timestamp format as needed
+      format: "YYYY-MM-DD HH:mm:ss",
     }),
-    myFormat // Use the custom format that includes the timestamp
+    myFormat
   ),
   transports: [
     new winston.transports.Console(),
