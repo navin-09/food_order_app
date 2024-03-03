@@ -1,0 +1,56 @@
+[
+  {
+    "name": "Pizza Margherita",
+    "price": 12,
+    "cuisine": "Italian",
+    "type": "Veg",
+    "subCategory": "Main Course",
+    "description": "Classic pizza with tomato sauce, mozzarella cheese, and basil.",
+    "image": "https://unsplash.com/photos/Y9-O27ic_2s"
+  },
+  {
+    "name": "Chicken Tikka Masala",
+    "price": 15,
+    "cuisine": "Indian",
+    "type": "Non-Veg",
+    "subCategory": "Main Course",
+    "description": "Chicken marinated in yogurt and spices, cooked in a creamy tomato sauce.",
+    "image": "https://www.pexels.com/photo/chicken-tikka-masala-curry-served-in-a-white-bowl-with-naan-bread-on-the-side-6719327/"
+  },
+  {
+    "name": "Chocolate Brownie",
+    "price": 5,
+    "cuisine": "Desserts",
+    "type": "Veg",
+    "subCategory": "Dessert",
+    "description": "Rich and delicious chocolate brownie",
+    "image": "https://www.freepik.com/free-photo/chocolate-brownie-cake-slice-with-ice-cream-and-raspberry-on-plate/13687403.jpg"
+  },
+  {
+    "name": "Sushi Platter",
+    "price": 20,
+    "cuisine": "Japanese",
+    "type": "Non-Veg",
+    "subCategory": "Main Course",
+    "description": "Assortment of sushi rolls and nigiri pieces",
+    "image": "https://pixabay.com/photos/sushi-japanese-seafood-rice-nigiri-sashimi-5050277/"
+  },
+  {
+    "name": "Pad Thai",
+    "price": 15,
+    "cuisine": "Thai",
+    "type": "Veg/Non-Veg",
+    "subCategory": "Main Course",
+    "description": "Stir-fried rice noodles with vegetables, protein (optional), and a flavorful sauce.",
+    "image": "https://unsplash.com/photos/4o95X1s56gE"
+  },
+  {
+    "name": "Mango Lassi",
+    "price": 4,
+    "cuisine": "Indian",
+    "type": "Veg",
+    "subCategory": "Drinks",
+    "description": "Refreshing yogurt-based drink with mango pulp and spices.",
+    "image": "https://www.pexels.com/photo/mango-lassi-in-a-glass-with-a-straw-6034509/"
+  }
+]

@@ -1,4 +1,4 @@
-// We want to connect to the MongoDB datasource
+// Connect to MongoDB datasource
 datasource db {
   provider = "mongodb"
   url      = env("MONGODB_URI")
@@ -8,11 +8,74 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// Define User model
 model User {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now())
-  full_name  String
-  email      String   @unique
-  password   String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  Cart      Cart[]
+  Order     Order[]
+}
+
+// Define Dish model
+model Dish {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  price       Int
+  cuisine     String
+  type        String
+  subCategory String
+  description String?
+  image       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+}
+
+// Define Cart model
+model Cart {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String     @db.ObjectId
+  items     CartDish[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @default(now())
+
+  // # Define relation with User model
+  user User @relation(fields: [userId], references: [id])
+}
+
+// Define embedded type for Cart items
+model CartDish {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  dishId   String  @db.ObjectId
+  quantity Int
+  Cart     Cart?   @relation(fields: [cartId], references: [id])
+  cartId   String? @db.ObjectId
+}
+
+// Define Order model
+model Order {
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String      @db.ObjectId
+  items      OrderDish[]
+  totalPrice Int
+  status     String
+  paymentId  String?
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @default(now())
+
+  // # Define relation with User model
+  user User @relation(fields: [userId], references: [id])
+}
+
+// Define embedded type for Order items
+model OrderDish {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  dishId   String  @db.ObjectId
+  quantity Int
+  price    Int
+  Order    Order?  @relation(fields: [orderId], references: [id])
+  orderId  String? @db.ObjectId
 }
