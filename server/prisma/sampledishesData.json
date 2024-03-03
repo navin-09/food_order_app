@@ -6,7 +6,9 @@
     "type": "Veg",
     "subCategory": "Main Course",
     "description": "Classic pizza with tomato sauce, mozzarella cheese, and basil.",
-    "image": "https://unsplash.com/photos/Y9-O27ic_2s"
+    "image": "https://unsplash.com/photos/Y9-O27ic_2s",
+    "createdAt": "2024-03-03T12:00:00Z",
+    "updatedAt": "2024-03-03T12:00:00Z"
   },
   {
     "name": "Chicken Tikka Masala",
@@ -15,7 +17,9 @@
     "type": "Non-Veg",
     "subCategory": "Main Course",
     "description": "Chicken marinated in yogurt and spices, cooked in a creamy tomato sauce.",
-    "image": "https://www.pexels.com/photo/chicken-tikka-masala-curry-served-in-a-white-bowl-with-naan-bread-on-the-side-6719327/"
+    "image": "https://www.pexels.com/photo/chicken-tikka-masala-curry-served-in-a-white-bowl-with-naan-bread-on-the-side-6719327/",
+    "createdAt": "2024-03-03T12:00:00Z",
+    "updatedAt": "2024-03-03T12:00:00Z"
   },
   {
     "name": "Chocolate Brownie",
@@ -24,7 +28,9 @@
     "type": "Veg",
     "subCategory": "Dessert",
     "description": "Rich and delicious chocolate brownie",
-    "image": "https://www.freepik.com/free-photo/chocolate-brownie-cake-slice-with-ice-cream-and-raspberry-on-plate/13687403.jpg"
+    "image": "https://www.freepik.com/free-photo/chocolate-brownie-cake-slice-with-ice-cream-and-raspberry-on-plate/13687403.jpg",
+    "createdAt": "2024-03-03T12:00:00Z",
+    "updatedAt": "2024-03-03T12:00:00Z"
   },
   {
     "name": "Sushi Platter",
@@ -33,7 +39,9 @@
     "type": "Non-Veg",
     "subCategory": "Main Course",
     "description": "Assortment of sushi rolls and nigiri pieces",
-    "image": "https://pixabay.com/photos/sushi-japanese-seafood-rice-nigiri-sashimi-5050277/"
+    "image": "https://pixabay.com/photos/sushi-japanese-seafood-rice-nigiri-sashimi-5050277/",
+    "createdAt": "2024-03-03T12:00:00Z",
+    "updatedAt": "2024-03-03T12:00:00Z"
   },
   {
     "name": "Pad Thai",
@@ -42,7 +50,9 @@
     "type": "Veg/Non-Veg",
     "subCategory": "Main Course",
     "description": "Stir-fried rice noodles with vegetables, protein (optional), and a flavorful sauce.",
-    "image": "https://unsplash.com/photos/4o95X1s56gE"
+    "image": "https://unsplash.com/photos/4o95X1s56gE",
+    "createdAt": "2024-03-03T12:00:00Z",
+    "updatedAt": "2024-03-03T12:00:00Z"
   },
   {
     "name": "Mango Lassi",
@@ -51,6 +61,8 @@
     "type": "Veg",
     "subCategory": "Drinks",
     "description": "Refreshing yogurt-based drink with mango pulp and spices.",
-    "image": "https://www.pexels.com/photo/mango-lassi-in-a-glass-with-a-straw-6034509/"
+    "image": "https://www.pexels.com/photo/mango-lassi-in-a-glass-with-a-straw-6034509/",
+    "createdAt": "2024-03-03T12:00:00Z",
+    "updatedAt": "2024-03-03T12:00:00Z"
   }
 ]

@@ -10,8 +10,8 @@ const refreshTokenExpiresIn = "7d";
 export const signup = async (req: Request, res: Response) => {
   try {
     logger.info("Signing up a new user");
-    const { full_name, email, password }: any = req.body;
-    console.log({ full_name, email, password });
+    const { name, email, password }: any = req.body;
+    console.log({ name, email, password });
     const existingUser = await prisma.user.findUnique({
       where: { email: email.toLowerCase() }, // Convert email to lowercase
     });
@@ -23,7 +23,7 @@ export const signup = async (req: Request, res: Response) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
       data: {
-        full_name,
+        name,
         email: email.toLowerCase(), // Convert email to lowercase
         password: hashedPassword,
       },

@@ -1,9 +1,12 @@
 import express from "express";
-import { fetchDishes, fetchDish } from "../controllers/DishesController";
-
+import {
+  fetchDishes,
+  fetchDish,
+  createDish,
+} from "../controllers/DishesController";
 const router = express.Router();
-
-router.post("/dishes", fetchDishes);
+router.get("/dishes", fetchDishes);
+router.post("/dishes", createDish);
 router.post("/dishes/:id", fetchDish);
 
 export default router;
