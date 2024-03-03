@@ -56,13 +56,6 @@ export const createOrders = async (req: Request, res: Response) => {
 export const fetchOrders = async (req: Request, res: Response) => {
   try {
     const { userId } = req.body;
-    // const { status, skip = 0, limit = 10 } = req.query;
-    // const whereClause = { userId };
-
-    // if (status) {
-    //   whereClause.status = status;
-    // }
-
     const orders = await prisma.order.findMany({
       where: { userId },
       include: { items: true },
@@ -70,7 +63,7 @@ export const fetchOrders = async (req: Request, res: Response) => {
 
     return res.json(orders);
   } catch (error) {
-    logger.error("Error creating order:", error);
+    logger.error("Error fetching orders", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
   return;
@@ -78,12 +71,11 @@ export const fetchOrders = async (req: Request, res: Response) => {
 
 export const fetchOrdersById = async (req: Request, res: Response) => {
   try {
-    const { orderId } = req.params;
-    const updates = req.body;
-
+    const { id } = req.params;
+    console.log({});
     // Check if the order belongs to the user
     const order = await prisma.order.findUnique({
-      where: { id: orderId },
+      where: { id },
       include: { user: true },
     });
     if (!order) {
@@ -92,15 +84,9 @@ export const fetchOrdersById = async (req: Request, res: Response) => {
         .json({ message: "Order not found or not owned by user" });
     }
 
-    // Update the order
-    const updatedOrder = await prisma.order.update({
-      where: { id: orderId },
-      data: updates,
-    });
-
-    return res.json(updatedOrder);
+    return res.json(order);
   } catch (error) {
-    logger.error("Error creating order:", error);
+    logger.error("Error fetching order:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
   return;
