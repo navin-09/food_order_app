@@ -3,11 +3,12 @@ import { prisma } from "../utils/prismaHelper";
 export const fetchCart = async (req: Request, res: Response) => {
   try {
     // Get the user ID from the authenticated user
-    const { id: userId } = req.params;
-    console.log({ userId });
+    const { id } = req.params;
+    console.log({ id });
 
     // // Find the cart associated with the user
-    const cart = await prisma.cart.findMany({
+    const cart = await prisma.cart.findUnique({
+      where: { id },
       include: { items: true },
     });
 
@@ -25,7 +26,7 @@ export const fetchCart = async (req: Request, res: Response) => {
 
 export const addDishCart = async (req: Request, res: Response) => {
   try {
-    const { dishId, quantity, id } = req.body;
+    const { dishId, quantity, userId } = req.body;
 
     // Check if the dish exists
     const dish = await prisma.dish.findUnique({ where: { id: dishId } });
@@ -34,10 +35,10 @@ export const addDishCart = async (req: Request, res: Response) => {
     }
 
     // Find the user's cart or create a new one if it doesn't exist
-    let cart = await prisma.cart.findUnique({ where: { id } });
+    let cart = await prisma.cart.findUnique({ where: { userId } });
     if (!cart) {
       cart = await prisma.cart.create({
-        data: { userId: id },
+        data: { userId },
       });
     }
 
@@ -68,7 +69,7 @@ export const addDishCart = async (req: Request, res: Response) => {
 
 export const updateDishCart = async (req: Request, res: Response) => {
   try {
-    const { dishId, quantity, id } = req.body;
+    const { dishId, quantity, userId } = req.body;
 
     // Check if the dish exists
     const dish = await prisma.dish.findUnique({ where: { id: dishId } });
@@ -77,7 +78,7 @@ export const updateDishCart = async (req: Request, res: Response) => {
     }
 
     // Find the user's cart
-    const cart = await prisma.cart.findUnique({ where: { id } });
+    const cart = await prisma.cart.findUnique({ where: { userId } });
     if (!cart) {
       return res.status(404).json({ message: "Cart not found" });
     }

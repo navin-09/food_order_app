@@ -39,7 +39,7 @@ model Cart {
   id        String     @id @default(auto()) @map("_id") @db.ObjectId
   createdAt DateTime   @default(now())
   updatedAt DateTime   @default(now())
-  userId    String     @db.ObjectId
+  userId    String     @unique @db.ObjectId
   items     CartDish[]
   user      User       @relation(fields: [userId], references: [id])
 }
@@ -54,22 +54,22 @@ model CartDish {
 }
 
 // Define Order model
+
 model Order {
   id         String      @id @default(auto()) @map("_id") @db.ObjectId
   userId     String      @db.ObjectId
-  items      OrderDish[]
+  items      OrderItem[]
   totalPrice Int
   status     String
-  paymentId  String?
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @default(now())
 
-  // # Define relation with User model
+  // Relation with User model
   user User @relation(fields: [userId], references: [id])
 }
 
-// Define embedded type for Order items
-model OrderDish {
+// Embedded type for Order items
+model OrderItem {
   id       String  @id @default(auto()) @map("_id") @db.ObjectId
   dishId   String  @db.ObjectId
   quantity Int
