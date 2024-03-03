@@ -53,8 +53,9 @@ export const createDish = async (req: Request, res: Response) => {
 export const fetchDish = async (req: Request, res: Response) => {
   try {
     logger.info("fetching the dish by id...");
-
-    return res.status(200).json({ success: true });
+    const { id } = req.params;
+    const data = await prisma.dish.findUnique({ where: { id } });
+    return res.status(200).json({ success: true, data });
   } catch (error) {
     logger.error("Error signing in:", error);
     return res.status(500).json({ error: "Internal Server Error" });
