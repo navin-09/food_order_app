@@ -48,3 +48,11 @@ export const signIn = async (signInData: any): Promise<any> => {
 export const signup = async (SignupData: any): Promise<any> => {
   return axiosWithAuthorization("post", "/signup", SignupData);
 };
+
+export const dishes = async (): Promise<any> => {
+  return axiosWithAuthorization("get", "/dishes");
+};
+
+export const addDishCart = async (cartData: any) => {
+  return axiosWithAuthorization("post", `/cart`, cartData);
+};

@@ -1,11 +1,14 @@
-import React, { useState } from "react";
-import { Grid, Title, Select, Button, Group } from "@mantine/core";
+import { useEffect, useState } from "react";
+import { Grid, Title, Select, Button, Container } from "@mantine/core";
 import { ArticleCard } from "../BaseComponents/ArticleCards/ArticleCard";
+import { dishes } from "../../ApiService";
+import { getToken } from "../../constant";
 
 const Catalog = () => {
   const [selectedType, setSelectedType] = useState("All");
   const [selectedSubCategory, setSelectedSubCategory] = useState("All");
-
+  const [products, setDishesData]: any = useState([]);
+  const token = getToken();
   const handleTypeChange = (value: any) => {
     setSelectedType(value);
   };
@@ -28,61 +31,25 @@ const Catalog = () => {
     return false;
   };
 
-  // Assuming you have an array of product data stored in a variable named 'products'
-  const products = [
-    {
-      _id: {
-        $oid: "65e4816fd65f6e96b65bc202",
-      },
-      name: "Spaghetti Carbonara",
-      price: 14,
-      cuisine: "Italian",
-      type: "Non-Veg",
-      subCategory: "Main Course",
-      description:
-        "Classic pizza with tomato sauce, mozzarella cheese, and basil.",
-      image:
-        "https://images.pexels.com/photos/22420/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-      createdAt: {
-        $date: "2024-03-03T13:55:58.930Z",
-      },
-      updatedAt: {
-        $date: "2024-03-03T13:55:58.930Z",
-      },
-    },
-    {
-      _id: {
-        $oid: "65e49faa01df68bd2e5d8deb",
-      },
-      name: "Chicken",
-      price: 14,
-      cuisine: "Italian",
-      type: "Non-Veg",
-      subCategory: "Main Course",
-      description:
-        "Classic pizza with tomato sauce, mozzarella cheese, and basil.",
-      image:
-        "https://images.pexels.com/photos/7783361/pexels-photo-7783361.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-      createdAt: {
-        $date: "2024-03-03T16:04:57.053Z",
-      },
-      updatedAt: {
-        $date: "2024-03-03T16:04:57.053Z",
-      },
-    },
-  ];
+  useEffect(() => {
+    async function getDishes() {
+      const response = await dishes();
+      console.log({ response });
+      setDishesData(response.data);
+    }
+    getDishes();
+  }, [token]);
 
   const filteredProducts = products.filter(filterProducts);
 
   return (
     <>
-      <div>
+      <Container>
         <div
           style={{
             display: "flex",
             justifyContent: "flex-end",
             alignItems: "flex-end",
-            margin: 10,
           }}
         >
           <Select
@@ -137,15 +104,15 @@ const Catalog = () => {
           }}
         >
           <Grid>
-            {filteredProducts.map((product) => (
+            {filteredProducts.map((product: any) => (
               <ArticleCard
-                key={product._id.$oid} // Ensure each card has a unique key
+                key={product.id} // Ensure each card has a unique key
                 product={product} // Pass the entire product object as a prop
               />
             ))}
           </Grid>
         </div>
-      </div>
+      </Container>
     </>
   );
 };

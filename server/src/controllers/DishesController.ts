@@ -14,24 +14,23 @@ export const fetchDishes = async (req: Request, res: Response) => {
   }
 };
 
-// Function to create a new dish
+
 export const createDish = async (req: Request, res: Response) => {
   try {
-    const { name, price, cuisine, type, subCategory, description, image } =
-      req.body;
-    logger.info("Creating dish...", {
-      name,
-      price,
-      cuisine,
-      type,
-      subCategory,
-      description,
-      image,
-    });
+    const dishes = req.body;
 
-    // Create the dish in the database
-    const newDish = await prisma.dish.create({
-      data: {
+    if (!Array.isArray(dishes)) {
+      return res.status(400).json({
+        error: "Invalid request format. Please provide an array of dishes.",
+      });
+    }
+
+    const createdDishes = [];
+    for (const dishData of dishes) {
+      const { name, price, cuisine, type, subCategory, description, image } =
+        dishData;
+
+      logger.info("Creating dish...", {
         name,
         price,
         cuisine,
@@ -39,15 +38,39 @@ export const createDish = async (req: Request, res: Response) => {
         subCategory,
         description,
         image,
-      },
-    });
+      });
 
-    logger.info("Dish created successfully", { newDish });
-    res.status(201).json({ success: true, data: newDish });
+      try {
+        // Create the dish in the database
+        const newDish = await prisma.dish.create({
+          data: {
+            name,
+            price,
+            cuisine,
+            type,
+            subCategory,
+            description,
+            image,
+          },
+        });
+
+        createdDishes.push(newDish);
+        logger.info("Dish created successfully", { newDish });
+      } catch (error) {
+        logger.error(
+          `Error creating dish (data: ${JSON.stringify(dishData)}):`,
+          error
+        );
+        return res.status(500).json({ error: "Internal Server Error" });
+      }
+    }
+
+    res.status(201).json({ success: true, data: createdDishes });
   } catch (error) {
-    logger.error("Error creating dish:", error);
+    logger.error("Error creating dishes:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
+  return;
 };
 
 export const fetchDish = async (req: Request, res: Response) => {

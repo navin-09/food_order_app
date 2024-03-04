@@ -1,9 +1,10 @@
-import React from "react";
-import { Card, Image, Text, Group, Center, Avatar } from "@mantine/core";
+import React, { useState } from "react";
+import { Card, Image, Text, Group, Button } from "@mantine/core";
 import classes from "./ArticleCard.module.scss";
+import { addDishCart } from "../../../ApiService";
 
 type Product = {
-  _id: { $oid: string };
+  id: string;
   name: string;
   price: number;
   cuisine: string;
@@ -20,10 +21,24 @@ type ArticleCardProps = {
 };
 
 export const ArticleCard: React.FC<ArticleCardProps> = ({ product }) => {
+  const [quantity, setQuantity] = useState(0);
+  const [dishId, setDishId] = useState("");
+  console.log({ product });
   const linkProps = {
     href: "#", // Placeholder link URL
     target: "_blank",
     rel: "noopener noreferrer",
+  };
+
+  const handleIncrement = () => {
+    setQuantity(quantity + 1);
+    // addDishCart({ dishId: product?.id, quantity, userId });
+  };
+
+  const handleDecrement = () => {
+    if (quantity >= 1) {
+      setQuantity(quantity - 1);
+    }
   };
 
   return (
@@ -32,8 +47,8 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ product }) => {
       radius="md"
       className={classes.card}
       m={10}
-      w={270}
-      h={470}
+      w={290}
+      h={450}
     >
       <Card.Section>
         <a {...linkProps}>
@@ -50,30 +65,12 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ product }) => {
       </Text>
 
       <Group justify="space-between" className={classes.footer}>
-        <Text size="sm">{product.cuisine}</Text>
-        <Text size="sm">{product.type}</Text>
-        <Text size="sm">{product.subCategory}</Text>
         <Text size="sm">${product.price}</Text>
-        {/* <Group gap={8} mr={0}>
-          <ActionIcon className={classes.action}>
-            <IconHeart
-              style={{ width: 16, height: 16 }}
-              color={theme.colors.red[6]}
-            />
-          </ActionIcon>
-          <ActionIcon className={classes.action}>
-            <IconBookmark
-              style={{ width: 16, height: 16 }}
-              color={theme.colors.yellow[7]}
-            />
-          </ActionIcon>
-          <ActionIcon className={classes.action}>
-            <IconShare
-              style={{ width: 16, height: 16 }}
-              color={theme.colors.blue[6]}
-            />
-          </ActionIcon>
-        </Group> */}
+        <Group gap={8}>
+          <Button onClick={handleDecrement}>-</Button>
+          <Text>{quantity}</Text>
+          <Button onClick={handleIncrement}>+</Button>
+        </Group>
       </Group>
     </Card>
   );
