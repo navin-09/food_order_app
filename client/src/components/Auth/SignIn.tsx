@@ -11,9 +11,9 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signIn } from "../../ApiService";
-// import { useAuth } from "contexts/AuthContext";
 import CustomLoader from "../BaseComponents/Loader/CustomLoader";
 import { Logo } from "../../constant";
+import { useAuth } from "../../contexts/AuthContext";
 
 export function SignIn() {
   const [formData, setFormData] = useState({
@@ -24,7 +24,7 @@ export function SignIn() {
   const [submitStatus, setSubmitStatus] = useState("");
   const [failureMessage, setFailureMessage] = useState("");
   const navigate = useNavigate();
-  //   const { login } = useAuth();
+  const { login } = useAuth();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     console.log({ name, value });
@@ -40,10 +40,8 @@ export function SignIn() {
       console.log(response.data);
       if (response.success) {
         setSubmitStatus("success");
-        localStorage.setItem("accessToken", response.accessToken); // Save access token in local storage
-        localStorage.setItem("refreshToken", response.refreshToken); // Save refresh token in local storage
-        // login(response.accessToken); // Use access token for login
-        navigate("/home"); // Navigate to dashboard after successful login
+        login(response.accessToken, response.refreshToken);
+        navigate("/catalog");
       }
     } catch (error: any) {
       setSubmitStatus("failure");

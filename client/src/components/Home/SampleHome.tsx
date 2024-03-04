@@ -1,6 +1,5 @@
-import React from "react";
 import { Box, Text, Button, Grid } from "@mantine/core";
-import { HomeImage, REACT_APP_URL } from "../../constant";
+import { HomeImage } from "../../constant";
 import { useNavigate } from "react-router-dom";
 
 export const SampleHomePage = () => {
@@ -12,7 +11,6 @@ export const SampleHomePage = () => {
     <div
       style={{
         backgroundImage: `url(${HomeImage})`,
-        backgroundColor: "red",
         backgroundSize: "cover",
         minHeight: "90vh",
         maxHeight: "90vh",
