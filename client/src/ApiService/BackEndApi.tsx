@@ -1,6 +1,7 @@
 // ContactUsApi.ts
 import { REACT_APP_URL, getRefreshToken, getToken } from "../constant";
 import axiosInstance from "./axiosConfig";
+import { fetchCart } from '../../../server/src/controllers/CartController';
 
 // Define a function to handle HTTP requests with authorization headers
 export const axiosWithAuthorization = async (
@@ -62,3 +63,4 @@ export const fetchCartData = async (userId: any) => {
 export const getUserData = async (): Promise<any> => {
   return axiosWithAuthorization("get", "/get_user_data");
 };
+

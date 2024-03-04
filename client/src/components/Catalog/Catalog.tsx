@@ -41,17 +41,6 @@ const Catalog = () => {
     return false;
   };
 
-  // useEffect(() => {
-  //   async function getDishes() {
-  //     const response = await dishes();
-  //     const user = await getUserData();
-  //     const cartData = await fetchCarthData(user.data.id); // Corrected function name from fetchCarthData to fetchCartData
-  //     console.log({ response, cartData });
-  //     setDishesData(response.data);
-  //     setCart(cartData); // Set the cart data received from the API
-  //   }
-  //   getDishes();
-  // }, [token]);
 
   useEffect(() => {
     async function fetchData() {
@@ -88,7 +77,7 @@ const Catalog = () => {
         }}
       >
         <Select
-          style={{ marginRight: 10 }}
+          style={{ width: 150, marginRight: 10 }}
           data={[
             { value: "All", label: "All" },
             { value: "Veg", label: "Veg" },
@@ -99,7 +88,7 @@ const Catalog = () => {
           onChange={handleTypeChange}
         />
         <Select
-          style={{ marginRight: 10 }}
+          style={{ width: 150, marginRight: 10 }}
           data={[
             { value: "All", label: "All" },
             { value: "Starter", label: "Starter" },

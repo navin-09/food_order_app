@@ -10,6 +10,8 @@ import SignInPage from "./pages/SignInPage";
 import CustomLoader from "./components/BaseComponents/Loader/CustomLoader";
 import RegistrationSuccessPage from "./pages/RegistrationSuccessPage";
 import CatalogPage from "./pages/CatalogPage";
+import path from "path";
+import CartPage from "./pages/CartPage";
 
 function App() {
   const token = localStorage.getItem("token");
@@ -49,6 +51,7 @@ function App() {
       path: "/catalog",
       element: <CatalogPage />,
     },
+    { path: "/cart", element: <CartPage /> },
     { path: "/success", element: <SuccessPage /> },
     { path: "/registrationSuccess", element: <RegistrationSuccessPage /> },
     {

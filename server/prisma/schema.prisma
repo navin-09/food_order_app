@@ -22,7 +22,7 @@ model User {
 
 // Define Dish model
 model Dish {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   price       Int
   cuisine     String
@@ -30,8 +30,9 @@ model Dish {
   subCategory String
   description String?
   image       String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now())
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @default(now())
+  CartDish    CartDish[]
 }
 
 // Define Cart model
@@ -51,6 +52,7 @@ model CartDish {
   quantity Int
   Cart     Cart?   @relation(fields: [cartId], references: [id])
   cartId   String? @db.ObjectId
+  dish     Dish?   @relation(fields: [dishId], references: [id])
 }
 
 // Define Order model

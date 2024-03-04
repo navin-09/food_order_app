@@ -20,6 +20,8 @@ import {
   IconLogout,
   IconMenuOrder,
   IconCaravan,
+  IconSettings,
+  IconSettings2,
 } from "@tabler/icons-react";
 import classes from "./NavBar.module.scss";
 import { Logo, getToken } from "../../../constant";
@@ -93,7 +95,7 @@ export function NavBar({ children }: any) {
             >
               <HoverCard.Target>
                 <Center inline>
-                  <Button rightSection={<IconChevronDown />}>Profile</Button>
+                  <Button rightSection={<IconSettings />}>Settings</Button>
                 </Center>
               </HoverCard.Target>
               <HoverCard.Dropdown style={{ width: 200, overflow: "hidden" }}>
