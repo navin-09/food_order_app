@@ -81,3 +81,34 @@ export const signin = async (req: Request, res: Response) => {
     return res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+export const getuserdata = async (req: Request, res: Response) => {
+  try {
+    const token = req.headers.authorization; // Extract token from authorization header
+
+    if (!token) {
+      return res
+        .status(401)
+        .json({ error: "Authorization token not provided" });
+    }
+
+    const decodedToken: any = jwt.verify(token, jwtSecretKey);
+
+    if (!decodedToken) {
+      return res.status(401).json({ error: "Invalid or expired token" });
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { id: decodedToken.id },
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    return res.status(200).json({ success: true, data: user });
+  } catch (error) {
+    logger.error("Error fetching user data:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};

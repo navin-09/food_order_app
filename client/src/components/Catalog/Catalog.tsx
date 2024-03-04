@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import { Grid, Title, Select, Button, Container } from "@mantine/core";
+import { Grid, Title, Select, Button, Container, Badge } from "@mantine/core"; // Added Badge for showing count
 import { ArticleCard } from "../BaseComponents/ArticleCards/ArticleCard";
-import { dishes } from "../../ApiService";
+import { dishes, fetchCartData, getUserData } from "../../ApiService";
 import { getToken } from "../../constant";
 
 const Catalog = () => {
   const [selectedType, setSelectedType] = useState("All");
   const [selectedSubCategory, setSelectedSubCategory] = useState("All");
   const [products, setDishesData]: any = useState([]);
+  const [cart, setCart] = useState([]); // Corrected variable name from setcart to setCart
   const token = getToken();
   const handleTypeChange = (value: any) => {
     setSelectedType(value);
@@ -31,13 +32,39 @@ const Catalog = () => {
     return false;
   };
 
+  // useEffect(() => {
+  //   async function getDishes() {
+  //     const response = await dishes();
+  //     const user = await getUserData();
+  //     const cartData = await fetchCarthData(user.data.id); // Corrected function name from fetchCarthData to fetchCartData
+  //     console.log({ response, cartData });
+  //     setDishesData(response.data);
+  //     setCart(cartData); // Set the cart data received from the API
+  //   }
+  //   getDishes();
+  // }, [token]);
+
   useEffect(() => {
-    async function getDishes() {
+    async function fetchData() {
       const response = await dishes();
-      console.log({ response });
-      setDishesData(response.data);
+      const user = await getUserData();
+      const cartData = await fetchCartData(user.data.id);
+      const updatedDishesData = response.data.map((dish: any) => {
+        const cartItem = cartData.items.find(
+          (item: any) => item.dishId === dish.id
+        );
+        if (cartItem) {
+          return { ...dish, quantityInCart: cartItem.quantity };
+        } else {
+          return { ...dish, quantityInCart: 0 };
+        }
+      });
+      console.log({ updatedDishesData });
+      setDishesData(updatedDishesData);
+      setCart(cartData);
     }
-    getDishes();
+
+    fetchData();
   }, [token]);
 
   const filteredProducts = products.filter(filterProducts);
@@ -105,10 +132,7 @@ const Catalog = () => {
         >
           <Grid>
             {filteredProducts.map((product: any) => (
-              <ArticleCard
-                key={product.id} // Ensure each card has a unique key
-                product={product} // Pass the entire product object as a prop
-              />
+              <ArticleCard key={product.id} product={product}></ArticleCard>
             ))}
           </Grid>
         </div>

@@ -56,3 +56,9 @@ export const dishes = async (): Promise<any> => {
 export const addDishCart = async (cartData: any) => {
   return axiosWithAuthorization("post", `/cart`, cartData);
 };
+export const fetchCartData = async (userId: any) => {
+  return axiosWithAuthorization("get", `/cart/${userId}`);
+};
+export const getUserData = async (): Promise<any> => {
+  return axiosWithAuthorization("get", "/get_user_data");
+};

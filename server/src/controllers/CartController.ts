@@ -4,12 +4,12 @@ import { prisma } from "../utils/prismaHelper";
 export const fetchCart = async (req: Request, res: Response) => {
   try {
     // Get the user ID from the authenticated user
-    const { id } = req.params;
-    console.log({ id });
+    const { userId } = req.params;
+    console.log({ userId });
 
     // // Find the cart associated with the user
     const cart = await prisma.cart.findUnique({
-      where: { id },
+      where: { userId },
       include: { items: true },
     });
 
@@ -141,6 +141,7 @@ export const handleDishCart = async (
 ): Promise<void> => {
   try {
     const { dishId, quantity, userId } = req.body;
+    console.log({ dishId, quantity, userId });
 
     // Check if the dish exists
     const dish = await prisma.dish.findUnique({ where: { id: dishId } });

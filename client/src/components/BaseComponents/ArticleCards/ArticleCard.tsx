@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Image, Text, Group, Button } from "@mantine/core";
 import classes from "./ArticleCard.module.scss";
-import { addDishCart } from "../../../ApiService";
+import { addDishCart, getUserData } from "../../../ApiService";
 
 type Product = {
   id: string;
@@ -17,27 +17,45 @@ type Product = {
 };
 
 type ArticleCardProps = {
-  product: Product;
+  product: any;
 };
 
 export const ArticleCard: React.FC<ArticleCardProps> = ({ product }) => {
-  const [quantity, setQuantity] = useState(0);
-  const [dishId, setDishId] = useState("");
-  console.log({ product });
+  const [quantity, setQuantity] = useState(
+    product.quantityInCart ? product.quantityInCart : 0
+  );
+  const [user, setUser]: any = useState({});
+  // console.log({ product });
   const linkProps = {
     href: "#", // Placeholder link URL
     target: "_blank",
     rel: "noopener noreferrer",
   };
+  useEffect(() => {
+    async function getuser() {
+      const response = await getUserData();
+      setUser(response.data);
+    }
+    getuser();
+  }, [quantity]);
 
-  const handleIncrement = () => {
+  const handleIncrement = async () => {
     setQuantity(quantity + 1);
-    // addDishCart({ dishId: product?.id, quantity, userId });
+    addDishCart({
+      dishId: product?.id,
+      quantity: quantity + 1,
+      userId: user.id,
+    });
   };
 
   const handleDecrement = () => {
     if (quantity >= 1) {
       setQuantity(quantity - 1);
+      addDishCart({
+        dishId: product?.id,
+        quantity: quantity - 1,
+        userId: user.id,
+      });
     }
   };
 
