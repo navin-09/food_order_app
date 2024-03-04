@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/HomePage";
 import NotFoundPage from "./pages/NotFoundPage";
-import { NavBarMantine } from "./components/NavBar/NavBarMantine/NavBarMantine";
+import { NavBar } from "./components/NavBar/NavBarMantine/NavBarMantine";
 import { useState, useEffect } from "react";
 
 import SuccessPage from "./pages/SuccessPage";
@@ -66,13 +66,13 @@ function App() {
   }
   return (
     <Router>
-      <NavBarMantine>
+      <NavBar>
         <Routes>
           {routes.map((route, index) => (
             <Route key={index} path={route.path} element={route.element} />
           ))}
         </Routes>
-      </NavBarMantine>
+      </NavBar>
     </Router>
   );
 }

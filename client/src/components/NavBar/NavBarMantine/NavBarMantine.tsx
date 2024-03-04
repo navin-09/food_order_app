@@ -11,32 +11,46 @@ import {
   rem,
   useMantineTheme,
   Title,
+  HoverCard,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconChevronDown } from "@tabler/icons-react";
+import {
+  IconChevronDown,
+  IconGardenCart,
+  IconLogout,
+  IconMenuOrder,
+  IconCaravan,
+} from "@tabler/icons-react";
 import classes from "./NavBar.module.scss";
 import { Logo, getToken } from "../../../constant";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
 
-export function NavBarMantine({ children }: any) {
+export function NavBar({ children }: any) {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
-  // const isLogin = useAuth()
   const { logout } = useAuth();
   const token = getToken();
   const theme = useMantineTheme();
   const navigate = useNavigate();
+
   const handleSignIn = () => {
-    navigate("signin");
+    navigate("/signin");
   };
+
   const handleSignUp = () => {
-    navigate("signup");
+    navigate("/signup");
   };
-  function handleClick() {
+
+  const handleHomeClick = () => {
     navigate("/");
-  }
+  };
+
+  const handleNavigationClick = (path: string) => {
+    navigate(path);
+  };
+
   return (
     <Box>
       <header className={classes.header} style={{ backgroundColor: "#C7C8CC" }}>
@@ -44,7 +58,7 @@ export function NavBarMantine({ children }: any) {
           <Group
             typeof="button"
             style={{ cursor: "pointer" }}
-            onClick={handleClick}
+            onClick={handleHomeClick}
           >
             <img src={Logo} height={30} width={30} alt="food order app" />
             <Title size={25}>Food Order App</Title>
@@ -61,6 +75,7 @@ export function NavBarMantine({ children }: any) {
               borderRadius: 40,
             }}
           ></Group>
+
           {!token ? (
             <Group justify="center" px="md">
               <Button variant="default" onClick={handleSignIn}>
@@ -69,14 +84,51 @@ export function NavBarMantine({ children }: any) {
               <Button onClick={handleSignUp}>Sign up</Button>
             </Group>
           ) : (
-            <Button
-              onClick={() => {
-                logout();
-                navigate("/home");
-              }}
+            <HoverCard
+              width={600}
+              position="bottom"
+              radius="md"
+              shadow="md"
+              withinPortal
             >
-              Log Out
-            </Button>
+              <HoverCard.Target>
+                <Center inline>
+                  <Button rightSection={<IconChevronDown />}>Profile</Button>
+                </Center>
+              </HoverCard.Target>
+              <HoverCard.Dropdown style={{ width: 200, overflow: "hidden" }}>
+                <Button
+                  variant="transparent"
+                  leftSection={<IconCaravan />}
+                  onClick={() => {
+                    navigate("/cart");
+                  }}
+                >
+                  Cart
+                </Button>
+                <Divider my="sm" />
+                <Button
+                  variant="transparent"
+                  leftSection={<IconMenuOrder />}
+                  onClick={() => {
+                    navigate("/orders");
+                  }}
+                >
+                  Orders
+                </Button>
+                <Divider my="sm" />
+                <Button
+                  variant="transparent"
+                  leftSection={<IconLogout />}
+                  onClick={() => {
+                    logout();
+                    navigate("/home");
+                  }}
+                >
+                  Logout
+                </Button>
+              </HoverCard.Dropdown>
+            </HoverCard>
           )}
 
           <Burger
@@ -98,9 +150,9 @@ export function NavBarMantine({ children }: any) {
         <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
           <Divider my="sm" />
 
-          <a href="/home" className={classes.link}>
+          <UnstyledButton className={classes.link} onClick={handleHomeClick}>
             Home
-          </a>
+          </UnstyledButton>
           <UnstyledButton className={classes.link} onClick={toggleLinks}>
             <Center inline>
               <Box component="span" mr={5}>
@@ -123,14 +175,20 @@ export function NavBarMantine({ children }: any) {
               <Button onClick={handleSignUp}>Sign up</Button>
             </Group>
           ) : (
-            <Button
-              onClick={() => {
-                logout();
-                navigate("/home");
-              }}
-            >
-              Log Out
-            </Button>
+            <Group justify="center">
+              <Button
+                leftSection={<IconGardenCart></IconGardenCart>}
+                onClick={() => handleNavigationClick("/cart")}
+              >
+                Cart
+              </Button>
+              <Button
+                leftSection={<IconGardenCart></IconGardenCart>}
+                onClick={() => handleNavigationClick("/home")}
+              >
+                Log Out
+              </Button>
+            </Group>
           )}
         </ScrollArea>
       </Drawer>

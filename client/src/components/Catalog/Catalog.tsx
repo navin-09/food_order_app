@@ -1,5 +1,14 @@
 import { useEffect, useState } from "react";
-import { Grid, Title, Select, Button, Container, Badge } from "@mantine/core"; // Added Badge for showing count
+import {
+  Grid,
+  Title,
+  Select,
+  Button,
+  Container,
+  Badge,
+  ScrollArea,
+  Box,
+} from "@mantine/core"; // Added Badge for showing count
 import { ArticleCard } from "../BaseComponents/ArticleCards/ArticleCard";
 import { dishes, fetchCartData, getUserData } from "../../ApiService";
 import { getToken } from "../../constant";
@@ -70,74 +79,70 @@ const Catalog = () => {
   const filteredProducts = products.filter(filterProducts);
 
   return (
-    <>
-      <Container>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "flex-end",
+    <ScrollArea w={"100%"} h={"90vh"} scrollbars="y">
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          alignItems: "flex-end",
+        }}
+      >
+        <Select
+          style={{ marginRight: 10 }}
+          data={[
+            { value: "All", label: "All" },
+            { value: "Veg", label: "Veg" },
+            { value: "Non-Veg", label: "Non-Veg" },
+          ]}
+          label="Type"
+          value={selectedType}
+          onChange={handleTypeChange}
+        />
+        <Select
+          style={{ marginRight: 10 }}
+          data={[
+            { value: "All", label: "All" },
+            { value: "Starter", label: "Starter" },
+            { value: "Main Course", label: "Main Course" },
+            { value: "Dessert", label: "Dessert" },
+          ]}
+          label="Subcategory"
+          value={selectedSubCategory}
+          onChange={handleSubCategoryChange}
+        />
+        <Button
+          style={{ width: 110, marginRight: 40 }}
+          onClick={() => {
+            setSelectedType("All");
+            setSelectedSubCategory("All");
           }}
         >
-          <Select
-            style={{ marginRight: 10 }}
-            data={[
-              { value: "All", label: "All" },
-              { value: "Veg", label: "Veg" },
-              { value: "Non-Veg", label: "Non-Veg" },
-            ]}
-            label="Type"
-            value={selectedType}
-            onChange={handleTypeChange}
-          />
-          <Select
-            style={{ marginRight: 10 }}
-            data={[
-              { value: "All", label: "All" },
-              { value: "Starter", label: "Starter" },
-              { value: "Main Course", label: "Main Course" },
-              { value: "Dessert", label: "Dessert" },
-            ]}
-            label="Subcategory"
-            value={selectedSubCategory}
-            onChange={handleSubCategoryChange}
-          />
-          <Button
-            style={{ width: 200 }}
-            onClick={() => {
-              setSelectedType("All");
-              setSelectedSubCategory("All");
-            }}
-          >
-            Clear Filters
-          </Button>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            alignContent: "center",
-            justifyContent: "center",
-            marginBottom: 10,
-          }}
-        >
-          <Title>DISHES</Title>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            alignContent: "center",
-            justifyContent: "center",
-            marginBottom: 10,
-          }}
-        >
-          <Grid>
-            {filteredProducts.map((product: any) => (
-              <ArticleCard key={product.id} product={product}></ArticleCard>
-            ))}
-          </Grid>
-        </div>
-      </Container>
-    </>
+          Clear Filters
+        </Button>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          alignContent: "center",
+          justifyContent: "center",
+          marginBottom: 10,
+        }}
+      >
+        <Title>DISHES</Title>
+      </div>
+      <div
+        style={{
+          marginLeft: 25,
+          display: "flex",
+        }}
+      >
+        <Grid>
+          {filteredProducts.map((product: any) => (
+            <ArticleCard key={product.id} product={product}></ArticleCard>
+          ))}
+        </Grid>
+      </div>
+    </ScrollArea>
   );
 };
 
