@@ -14,8 +14,7 @@ app.use(
   bodyParser.json(),
   bodyParser.urlencoded({ extended: true }),
   cors({
-    origin: ["*"],
-    credentials: true,
+    origin: ["*", "http://localhost:3000"],
   })
 );
 

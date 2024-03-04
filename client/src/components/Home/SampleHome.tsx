@@ -1,10 +1,12 @@
 import React from "react";
 import { Box, Text, Button, Grid } from "@mantine/core";
 import { HomeImage, REACT_APP_URL } from "../../constant";
+import { useNavigate } from "react-router-dom";
 
 export const SampleHomePage = () => {
+  const navigate = useNavigate();
   const hanleClick = () => {
-    window.location.href = `${REACT_APP_URL}/signin`; // Navigate to different domain
+    navigate("/signin");
   };
   return (
     <div

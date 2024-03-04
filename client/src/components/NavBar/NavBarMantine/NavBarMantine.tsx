@@ -15,7 +15,7 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { IconChevronDown } from "@tabler/icons-react";
 import classes from "./NavBar.module.scss";
-import { Logo, REACT_APP_URL } from "../../../constant";
+import { Logo } from "../../../constant";
 import { useNavigate } from "react-router-dom";
 
 export function NavBarMantine({ children }: any) {
@@ -25,12 +25,10 @@ export function NavBarMantine({ children }: any) {
   const theme = useMantineTheme();
   const navigate = useNavigate();
   const handleSignIn = () => {
-    closeDrawer();
-    window.location.href = `${REACT_APP_URL}/signin`; // Navigate to different domain
+    navigate("signin");
   };
   const handleSignUp = () => {
-    closeDrawer();
-    window.location.href = `${REACT_APP_URL}/signup`; // Navigate to different domain
+    navigate("signup");
   };
   function handleClick() {
     navigate("/");

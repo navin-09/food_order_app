@@ -1,7 +1,8 @@
 // import theme from "theme";
 
 import { Loader, MantineThemeOverride } from "@mantine/core";
-import { CssLoader } from "./components/BaseComponents/CustomLoader/CssLoader";
+
+import { CssLoader } from "./components/BaseComponents/Loader/CssLoader";
 
 // Mantine theme
 const theme: MantineThemeOverride = {

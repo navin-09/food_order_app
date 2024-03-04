@@ -3,8 +3,12 @@ import Home from "./pages/HomePage";
 import NotFoundPage from "./pages/NotFoundPage";
 import { NavBarMantine } from "./components/NavBar/NavBarMantine/NavBarMantine";
 import { useState, useEffect } from "react";
-import CustomLoader from "./components/BaseComponents/CustomLoader/CutsomLoader";
+
 import SuccessPage from "./pages/SuccessPage";
+import SignUpPage from "./pages/SignUpPage";
+import SignInPage from "./pages/SignInPage";
+import CustomLoader from "./components/BaseComponents/Loader/CustomLoader";
+import RegistrationSuccessPage from "./pages/RegistrationSuccessPage";
 
 function App() {
   const token = localStorage.getItem("token");
@@ -28,9 +32,16 @@ function App() {
       path: "/",
       element: <Home />,
     },
-
+    {
+      path: "/signup",
+      element: <SignUpPage />,
+    },
+    {
+      path: "/signin",
+      element: <SignInPage />,
+    },
     { path: "/success", element: <SuccessPage /> },
-
+    { path: "/registrationSuccess", element: <RegistrationSuccessPage /> },
     {
       path: "/404",
       element: <NotFoundPage />,
