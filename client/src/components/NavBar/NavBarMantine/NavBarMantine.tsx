@@ -15,13 +15,17 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { IconChevronDown } from "@tabler/icons-react";
 import classes from "./NavBar.module.scss";
-import { Logo } from "../../../constant";
+import { Logo, getToken } from "../../../constant";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../contexts/AuthContext";
 
 export function NavBarMantine({ children }: any) {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
+  // const isLogin = useAuth()
+  const { logout } = useAuth();
+  const token = getToken();
   const theme = useMantineTheme();
   const navigate = useNavigate();
   const handleSignIn = () => {
@@ -42,8 +46,8 @@ export function NavBarMantine({ children }: any) {
             style={{ cursor: "pointer" }}
             onClick={handleClick}
           >
-            <img src={Logo} height={40} width={40} alt="food order app" />
-            <Title size={30}>Food Order App</Title>
+            <img src={Logo} height={30} width={30} alt="food order app" />
+            <Title size={25}>Food Order App</Title>
           </Group>
 
           <Group
@@ -57,13 +61,23 @@ export function NavBarMantine({ children }: any) {
               borderRadius: 40,
             }}
           ></Group>
-
-          <Group visibleFrom="sm">
-            <Button variant="default" onClick={handleSignIn}>
-              Sign In
+          {!token ? (
+            <Group justify="center" px="md">
+              <Button variant="default" onClick={handleSignIn}>
+                Log in
+              </Button>
+              <Button onClick={handleSignUp}>Sign up</Button>
+            </Group>
+          ) : (
+            <Button
+              onClick={() => {
+                logout();
+                navigate("/home");
+              }}
+            >
+              Log Out
             </Button>
-            <Button onClick={handleSignUp}>Sign Up</Button>
-          </Group>
+          )}
 
           <Burger
             opened={drawerOpened}
@@ -101,12 +115,23 @@ export function NavBarMantine({ children }: any) {
 
           <Divider my="sm" />
 
-          <Group justify="center" grow pb="xl" px="md">
-            <Button variant="default" onClick={handleSignIn}>
-              Log in
+          {!token ? (
+            <Group justify="center">
+              <Button variant="default" onClick={handleSignIn}>
+                Log in
+              </Button>
+              <Button onClick={handleSignUp}>Sign up</Button>
+            </Group>
+          ) : (
+            <Button
+              onClick={() => {
+                logout();
+                navigate("/home");
+              }}
+            >
+              Log Out
             </Button>
-            <Button onClick={handleSignUp}>Sign up</Button>
-          </Group>
+          )}
         </ScrollArea>
       </Drawer>
       <div>{children}</div>

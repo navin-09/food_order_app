@@ -9,6 +9,7 @@ import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage";
 import CustomLoader from "./components/BaseComponents/Loader/CustomLoader";
 import RegistrationSuccessPage from "./pages/RegistrationSuccessPage";
+import CatalogPage from "./pages/CatalogPage";
 
 function App() {
   const token = localStorage.getItem("token");
@@ -33,12 +34,20 @@ function App() {
       element: <Home />,
     },
     {
+      path: "/home",
+      element: <Home />,
+    },
+    {
       path: "/signup",
       element: <SignUpPage />,
     },
     {
       path: "/signin",
       element: <SignInPage />,
+    },
+    {
+      path: "/catalog",
+      element: <CatalogPage />,
     },
     { path: "/success", element: <SuccessPage /> },
     { path: "/registrationSuccess", element: <RegistrationSuccessPage /> },

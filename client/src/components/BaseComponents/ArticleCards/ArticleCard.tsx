@@ -1,38 +1,27 @@
 import React from "react";
-import { IconBookmark, IconHeart, IconShare } from "@tabler/icons-react";
-import {
-  Card,
-  Image,
-  Text,
-  ActionIcon,
-  Badge,
-  Group,
-  Center,
-  Avatar,
-  useMantineTheme,
-} from "@mantine/core";
+import { Card, Image, Text, Group, Center, Avatar } from "@mantine/core";
 import classes from "./ArticleCard.module.scss";
 
-// Define a type for the article card props
-type ArticleCardProps = {
-  title: string;
-  imageUrl: string;
-  content: string;
-  authorName: string;
-  authorAvatarUrl: string;
-  linkUrl: string;
+type Product = {
+  _id: { $oid: string };
+  name: string;
+  price: number;
+  cuisine: string;
+  type: string;
+  subCategory: string;
+  description: string;
+  image: string;
+  createdAt: { $date: string };
+  updatedAt: { $date: string };
 };
 
-export const ArticleCard: React.FC<ArticleCardProps> = ({
-  title,
-  imageUrl,
-  content,
-  authorName,
-  authorAvatarUrl,
-  linkUrl,
-}) => {
+type ArticleCardProps = {
+  product: Product;
+};
+
+export const ArticleCard: React.FC<ArticleCardProps> = ({ product }) => {
   const linkProps = {
-    href: linkUrl,
+    href: "#", // Placeholder link URL
     target: "_blank",
     rel: "noopener noreferrer",
   };
@@ -43,31 +32,28 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
       radius="md"
       className={classes.card}
       m={10}
-      w={350}
+      w={270}
       h={470}
     >
       <Card.Section>
         <a {...linkProps}>
-          <Image src={imageUrl} height={280} />
+          <Image src={product.image} height={280} />
         </a>
       </Card.Section>
 
       <Text className={classes.title} component="a" {...linkProps}>
-        {title}
+        {product.name}
       </Text>
 
       <Text size="sm" color="dimmed" lineClamp={4}>
-        {content}
+        {product.description}
       </Text>
 
       <Group justify="space-between" className={classes.footer}>
-        <Center>
-          <Avatar src={authorAvatarUrl} size={24} radius="xl" mr="xs" />
-          <Text size="sm" inline>
-            {authorName}
-          </Text>
-        </Center>
-
+        <Text size="sm">{product.cuisine}</Text>
+        <Text size="sm">{product.type}</Text>
+        <Text size="sm">{product.subCategory}</Text>
+        <Text size="sm">${product.price}</Text>
         {/* <Group gap={8} mr={0}>
           <ActionIcon className={classes.action}>
             <IconHeart
