@@ -77,7 +77,8 @@ export const CartDetails = () => {
   };
   const handleOrders = () => {
     addToOrders({ userId: userId, items: cartItems });
-    navigate("/orders");
+    window.location.href = "/orders";
+    // navigate("/orders");
   };
 
   return (
