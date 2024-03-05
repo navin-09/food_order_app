@@ -10,13 +10,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const mongouri = process.env.MONGODB_URI || "";
 
-app.use(
-  bodyParser.json(),
-  bodyParser.urlencoded({ extended: true }),
-  cors({
-    origin: ["*", "http://localhost:3000"],
-  })
-);
+app.use(bodyParser.json(), bodyParser.urlencoded({ extended: true }), cors());
 
 async function connectToDatabase() {
   try {
