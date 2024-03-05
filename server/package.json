@@ -2,9 +2,8 @@
   "name": "server",
   "version": "1.0.0",
   "main": "index.js",
-
   "scripts": {
-    "test": "npx jest src/tests",
+    "test": "jest --watchAll",
     "start": "nodemon src/app.ts"
   },
   "keywords": [],
@@ -30,6 +29,8 @@
   },
   "description": "",
   "devDependencies": {
+    "@babel/preset-env": "^7.24.0",
+    "@babel/preset-typescript": "^7.23.3",
     "@types/cors": "^2.8.17",
     "@types/jest": "^29.5.12",
     "@types/mongoose": "^5.11.97",

@@ -21,6 +21,7 @@ import { useAuth } from "../../../contexts/AuthContext";
 export function NavBar({ children }: any) {
   const { logout } = useAuth();
   const token = getToken();
+
   const navigate = useNavigate();
 
   const handleSignIn = () => {
@@ -32,7 +33,7 @@ export function NavBar({ children }: any) {
   };
 
   const handleHomeClick = () => {
-    navigate("/");
+    navigate("/home");
   };
 
   return (
@@ -68,51 +69,52 @@ export function NavBar({ children }: any) {
               <Button onClick={handleSignUp}>Sign up</Button>
             </Group>
           ) : (
-            <HoverCard
-              width={600}
-              position="bottom"
-              radius="md"
-              shadow="md"
-              withinPortal
-            >
-              <HoverCard.Target>
-                <Center inline>
-                  <Button rightSection={<IconSettings />}>Settings</Button>
-                </Center>
-              </HoverCard.Target>
-              <HoverCard.Dropdown style={{ width: 200, overflow: "hidden" }}>
-                <Button
-                  variant="transparent"
-                  leftSection={<IconCaravan />}
-                  onClick={() => {
-                    navigate("/cart");
-                  }}
-                >
-                  Cart
-                </Button>
-                <Divider my="sm" />
-                <Button
-                  variant="transparent"
-                  leftSection={<IconMenuOrder />}
-                  onClick={() => {
-                    navigate("/orders");
-                  }}
-                >
-                  Orders
-                </Button>
-                <Divider my="sm" />
-                <Button
-                  variant="transparent"
-                  leftSection={<IconLogout />}
-                  onClick={() => {
-                    logout();
-                    navigate("/home");
-                  }}
-                >
-                  Logout
-                </Button>
-              </HoverCard.Dropdown>
-            </HoverCard>
+            <Group>
+              <Button
+                variant="transparent"
+                leftSection={<IconMenuOrder />}
+                onClick={() => {
+                  navigate("/orders");
+                }}
+              >
+                Orders
+              </Button>
+              <Button
+                variant="transparent"
+                leftSection={<IconCaravan />}
+                onClick={() => {
+                  navigate("/cart");
+                }}
+              >
+                Cart
+              </Button>
+              <HoverCard
+                width={600}
+                position="bottom"
+                radius="md"
+                shadow="md"
+                withinPortal
+              >
+                <HoverCard.Target>
+                  <Center inline>
+                    <Button rightSection={<IconSettings />}>Settings</Button>
+                  </Center>
+                </HoverCard.Target>
+                <HoverCard.Dropdown style={{ width: 200, overflow: "hidden" }}>
+                  <Divider my="sm" />
+                  <Button
+                    variant="transparent"
+                    leftSection={<IconLogout />}
+                    onClick={() => {
+                      logout();
+                      window.location.href = "/";
+                    }}
+                  >
+                    Logout
+                  </Button>
+                </HoverCard.Dropdown>
+              </HoverCard>
+            </Group>
           )}
         </Group>
       </header>
