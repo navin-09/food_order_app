@@ -1,14 +1,20 @@
 import { Card, Image, Text, Group, Button, Divider } from "@mantine/core";
 import { useEffect, useState } from "react";
-import { addDishCart, fetchCartData, getUserData } from "../../ApiService";
+import {
+  addDishCart,
+  addToOrders,
+  fetchCartData,
+  getUserData,
+} from "../../ApiService";
 import { getToken } from "../../constant";
+import { useNavigate } from "react-router-dom";
 
 export const CartDetails = () => {
   const token = getToken();
   const [cartItems, setCart]: any = useState([]);
   const [userId, setuserId] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
-
+  const navigate = useNavigate();
   useEffect(() => {
     async function getDishes() {
       const user = await getUserData();
@@ -69,6 +75,10 @@ export const CartDetails = () => {
       });
     }
   };
+  const handleOrders = () => {
+    addToOrders({ userId: userId, items: cartItems });
+    navigate("/orders");
+  };
 
   return (
     <div
@@ -94,8 +104,8 @@ export const CartDetails = () => {
                         justifyContent: "space-evenly",
                       }}
                     >
-                      <div style={{ width: 250, height: 250 }}>
-                        <Image src={item.dish?.image} />
+                      <div style={{ width: 250 }}>
+                        <Image h={150} src={item.dish?.image} />
                       </div>
                     </div>
 
@@ -163,6 +173,7 @@ export const CartDetails = () => {
                   width: 200,
                   marginTop: "20px",
                 }}
+                onClick={handleOrders}
               >
                 Pay Now
               </Button>

@@ -3,11 +3,9 @@ import { prisma } from "../utils/prismaHelper";
 
 export const fetchCart = async (req: Request, res: Response) => {
   try {
-    // Get the user ID from the authenticated user
     const { userId } = req.params;
     console.log({ userId });
 
-    // // Find the cart associated with the user
     const cart = await prisma.cart.findUnique({
       where: { userId },
       include: { items: { include: { dish: true } } },

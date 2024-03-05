@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { prisma } from "../utils/prismaHelper";
 import logger from "../logger";
+
 export const createOrders = async (req: Request, res: Response) => {
   try {
     const { userId, items } = req.body;
@@ -12,7 +13,6 @@ export const createOrders = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Calculate total price
     let totalPrice = 0;
     for (const item of items) {
       const dish = await prisma.dish.findUnique({ where: { id: item.dishId } });
@@ -20,10 +20,9 @@ export const createOrders = async (req: Request, res: Response) => {
       if (!dish) {
         return res.status(404).json({ message: "Dish not found" });
       }
-      // totalPrice += dish.price * item.quantity;
-      const itemPrice = dish.price * item.quantity; // Calculate item price
-      totalPrice += itemPrice; // Add item price to total price
-      item.price = itemPrice; // Push item price to the object
+      const itemPrice = dish.price * item.quantity;
+      totalPrice += itemPrice;
+      item.price = itemPrice;
     }
     console.log({ totalPrice });
 
@@ -44,6 +43,8 @@ export const createOrders = async (req: Request, res: Response) => {
         status: "PENDING", // Initial status could be different based on requirements
       },
     });
+    await prisma.cartDish.deleteMany({ where: { Cart: { userId } } });
+    // await prisma.cart.deleteMany({ where: { Cart: { userId } } });
 
     return res.json(order);
   } catch (error) {
@@ -55,10 +56,10 @@ export const createOrders = async (req: Request, res: Response) => {
 
 export const fetchOrders = async (req: Request, res: Response) => {
   try {
-    const { userId } = req.body;
+    const { userId } = req.params;
     const orders = await prisma.order.findMany({
       where: { userId },
-      include: { items: true },
+      include: { items: { include: { dish: true } } },
     });
 
     return res.json(orders);

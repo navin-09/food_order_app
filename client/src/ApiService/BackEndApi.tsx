@@ -1,7 +1,7 @@
 // ContactUsApi.ts
 import { REACT_APP_URL, getRefreshToken, getToken } from "../constant";
 import axiosInstance from "./axiosConfig";
-import { fetchCart } from '../../../server/src/controllers/CartController';
+import { fetchCart } from "../../../server/src/controllers/CartController";
 
 // Define a function to handle HTTP requests with authorization headers
 export const axiosWithAuthorization = async (
@@ -57,10 +57,19 @@ export const dishes = async (): Promise<any> => {
 export const addDishCart = async (cartData: any) => {
   return axiosWithAuthorization("post", `/cart`, cartData);
 };
+
 export const fetchCartData = async (userId: any) => {
   return axiosWithAuthorization("get", `/cart/${userId}`);
 };
+
 export const getUserData = async (): Promise<any> => {
   return axiosWithAuthorization("get", "/get_user_data");
 };
 
+export const addToOrders = async (ordersData: any) => {
+  return axiosWithAuthorization("post", "/orders", ordersData);
+};
+
+export const fetchOrders = async (userId: any) => {
+  return axiosWithAuthorization("get", `/orders/${userId}`);
+};

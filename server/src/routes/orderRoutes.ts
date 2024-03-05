@@ -8,7 +8,7 @@ import {
 const router = express.Router();
 
 router.post("/orders", createOrders);
-router.get("/orders", fetchOrders);
+router.get("/orders/:userId", fetchOrders);
 router.get("/orders/:id", fetchOrdersById);
 
 export default router;
