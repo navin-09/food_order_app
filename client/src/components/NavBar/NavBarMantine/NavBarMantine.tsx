@@ -33,7 +33,8 @@ export function NavBar({ children }: any) {
   };
 
   const handleHomeClick = () => {
-    navigate("/home");
+    // navigate("/home");
+    window.location.href = "/home";
   };
 
   return (
