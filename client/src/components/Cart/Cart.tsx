@@ -22,11 +22,13 @@ export const CartDetails = () => {
   }, [token]);
 
   const calculateTotalPrice = (items: any[]) => {
-    const totalPrice = items.reduce(
-      (acc: any, item: any) =>
-        acc + (item.dish ? item.dish.price : 1) * item.quantity,
-      0
-    );
+    const totalPrice = items
+      ? items.reduce(
+          (acc: any, item: any) =>
+            acc + (item.dish ? item.dish.price : 1) * item.quantity,
+          0
+        )
+      : 0;
     setTotalPrice(totalPrice);
   };
 
@@ -49,7 +51,7 @@ export const CartDetails = () => {
   };
 
   const handleDecrement = async (item: any) => {
-    if (item.quantity > 1) {
+    if (item.quantity >= 1) {
       const updatedQuantity = item.quantity - 1;
       addDishCart({
         dishId: item?.dish?.id,
@@ -78,7 +80,7 @@ export const CartDetails = () => {
           {cartItems ? (
             cartItems.map((item: any) =>
               item.dish ? (
-                <div key={item.id} style={{ marginBottom: "20px" }}>
+                <div key={item.id} style={{ margin: "20px" }}>
                   <Group
                     style={{
                       display: "flex",

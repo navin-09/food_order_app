@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { prisma } from "../utils/prismaHelper";
-// import { dishes } from "../../../client/src/ApiService/BackEndApi";
 
 export const fetchCart = async (req: Request, res: Response) => {
   try {
@@ -15,7 +14,11 @@ export const fetchCart = async (req: Request, res: Response) => {
     });
 
     if (!cart) {
-      return res.status(404).json({ message: "Cart not found" });
+      return res.status(200).json({
+        success: true,
+        cart: { items: [] },
+        message: "Cart not found",
+      });
     }
 
     return res.json(cart);

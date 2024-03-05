@@ -1,14 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Grid,
-  Title,
-  Select,
-  Button,
-  Container,
-  Badge,
-  ScrollArea,
-  Box,
-} from "@mantine/core"; // Added Badge for showing count
+import { Grid, Title, Select, Button, ScrollArea } from "@mantine/core"; // Added Badge for showing count
 import { ArticleCard } from "../BaseComponents/ArticleCards/ArticleCard";
 import { dishes, fetchCartData, getUserData } from "../../ApiService";
 import { getToken } from "../../constant";
@@ -17,7 +8,9 @@ const Catalog = () => {
   const [selectedType, setSelectedType] = useState("All");
   const [selectedSubCategory, setSelectedSubCategory] = useState("All");
   const [products, setDishesData]: any = useState([]);
-  const [cart, setCart] = useState([]); // Corrected variable name from setcart to setCart
+  const [userData, setUserData] = useState(null); // Added state for user data
+
+  // const [cart, setCart] = useState([]); // Corrected variable name from setcart to setCart
   const token = getToken();
   const handleTypeChange = (value: any) => {
     setSelectedType(value);
@@ -41,29 +34,33 @@ const Catalog = () => {
     return false;
   };
 
-
   useEffect(() => {
+    console.log("rendring");
     async function fetchData() {
       const response = await dishes();
       const user = await getUserData();
       const cartData = await fetchCartData(user.data.id);
-      const updatedDishesData = response.data.map((dish: any) => {
-        const cartItem = cartData.items.find(
-          (item: any) => item.dishId === dish.id
-        );
-        if (cartItem) {
-          return { ...dish, quantityInCart: cartItem.quantity };
-        } else {
-          return { ...dish, quantityInCart: 0 };
-        }
-      });
+
+      const updatedDishesData = cartData.items
+        ? response.data.map((dish: any) => {
+            const cartItem = cartData.items.find(
+              (item: any) => item.dishId === dish.id
+            );
+            if (cartItem) {
+              return { ...dish, quantityInCart: cartItem.quantity };
+            } else {
+              return { ...dish, quantityInCart: 0 };
+            }
+          })
+        : response.data;
+
       console.log({ updatedDishesData });
       setDishesData(updatedDishesData);
-      setCart(cartData);
+      // setCart(cartData);
     }
 
     fetchData();
-  }, [token]);
+  }, [userData]);
 
   const filteredProducts = products.filter(filterProducts);
 

@@ -10,61 +10,36 @@ import SignInPage from "./pages/SignInPage";
 import CustomLoader from "./components/BaseComponents/Loader/CustomLoader";
 import RegistrationSuccessPage from "./pages/RegistrationSuccessPage";
 import CatalogPage from "./pages/CatalogPage";
-import path from "path";
 import CartPage from "./pages/CartPage";
+import { getToken } from "./constant";
 
 function App() {
-  const token = localStorage.getItem("token");
-  const [loading, setLoading] = useState(true); // Initial loading state
-
+  const [loading, setLoading] = useState(true);
+  const [token, settoken]: any = useState("");
   useEffect(() => {
-    console.log("checking");
-    // Simulate an async operation like fetching user status
     const checkAuthStatus = async () => {
-      // Placeholder for actual authentication check logic
-      // For example, checking token validity or fetching user profile
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulating async operation with a timeout
-      setLoading(false); // Update loading state to false after check is complete
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const token = getToken();
+      settoken(token);
+      setLoading(false);
     };
 
     checkAuthStatus();
   }, []);
   console.log({ token });
   const routes = [
-    {
-      path: "/",
-      element: <Home />,
-    },
-    {
-      path: "/home",
-      element: <Home />,
-    },
-    {
-      path: "/signup",
-      element: <SignUpPage />,
-    },
-    {
-      path: "/signin",
-      element: <SignInPage />,
-    },
-    {
-      path: "/catalog",
-      element: <CatalogPage />,
-    },
+    { path: "/", element: token ? <CatalogPage /> : <Home /> },
+    { path: "/home", element: token ? <CatalogPage /> : <Home /> },
+    { path: "/signup", element: <SignUpPage /> },
+    { path: "/signin", element: <SignInPage /> },
+    { path: "/catalog", element: <CatalogPage /> },
     { path: "/cart", element: <CartPage /> },
     { path: "/success", element: <SuccessPage /> },
     { path: "/registrationSuccess", element: <RegistrationSuccessPage /> },
-    {
-      path: "/404",
-      element: <NotFoundPage />,
-    },
-    {
-      path: "*",
-      element: <NotFoundPage />,
-    },
+    { path: "/404", element: <NotFoundPage /> },
+    { path: "*", element: <NotFoundPage /> },
   ];
   if (loading) {
-    // Return loader while the app is checking authentication status
     return <CustomLoader message="Loading..." />;
   }
   return (
