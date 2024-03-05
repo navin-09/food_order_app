@@ -17,8 +17,8 @@ import { useAuth } from "../../contexts/AuthContext";
 
 export function SignIn() {
   const [formData, setFormData] = useState({
-    email: "sandula.navin@gmail.com",
-    password: "Navin@345",
+    email: "",
+    password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
   const [submitStatus, setSubmitStatus] = useState("");
