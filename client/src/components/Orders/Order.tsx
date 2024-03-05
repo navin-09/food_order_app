@@ -45,7 +45,8 @@ export const OrdersPage = () => {
                     <Image
                       src={item.dish.image}
                       alt={item.dish.name}
-                      width={100}
+                      w={150}
+                      h={150}
                     />
                   </div>
                   <div>

@@ -12,6 +12,7 @@ import RegistrationSuccessPage from "./pages/RegistrationSuccessPage";
 import CatalogPage from "./pages/CatalogPage";
 import CartPage from "./pages/CartPage";
 import { getToken } from "./constant";
+import OrdersDetailsPage from "./pages/Order";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -35,6 +36,7 @@ function App() {
     { path: "/catalog", element: <CatalogPage /> },
     { path: "/cart", element: <CartPage /> },
     { path: "/success", element: <SuccessPage /> },
+    { path: "/orders", element: <OrdersDetailsPage /> },
     { path: "/registrationSuccess", element: <RegistrationSuccessPage /> },
     { path: "/404", element: <NotFoundPage /> },
     { path: "*", element: <NotFoundPage /> },
