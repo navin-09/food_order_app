@@ -19,7 +19,6 @@ export const fetchCart = async (req: Request, res: Response) => {
     }
 
     return res.json(cart);
-    return;
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Internal server error" });
@@ -38,7 +37,9 @@ export const handleDishCart = async (
     const dish = await prisma.dish.findUnique({ where: { id: dishId } });
     if (!dish) {
       res.status(404).json({ message: "Dish not found" });
+      return;
     }
+    console.log({ dish });
 
     // Find the user's cart or create a new one if it doesn't exist
     let cart = await prisma.cart.findUnique({ where: { userId } });
@@ -82,4 +83,5 @@ export const handleDishCart = async (
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
   }
+  return;
 };

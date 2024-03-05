@@ -1,27 +1,17 @@
 import {
   Group,
   Button,
-  UnstyledButton,
   Divider,
   Center,
   Box,
-  Burger,
-  Drawer,
-  ScrollArea,
-  rem,
-  useMantineTheme,
   Title,
   HoverCard,
 } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 import {
-  IconChevronDown,
-  IconGardenCart,
   IconLogout,
   IconMenuOrder,
   IconCaravan,
   IconSettings,
-  IconSettings2,
 } from "@tabler/icons-react";
 import classes from "./NavBar.module.scss";
 import { Logo, getToken } from "../../../constant";
@@ -29,12 +19,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
 
 export function NavBar({ children }: any) {
-  const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
-    useDisclosure(false);
-  const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const { logout } = useAuth();
   const token = getToken();
-  const theme = useMantineTheme();
   const navigate = useNavigate();
 
   const handleSignIn = () => {
@@ -47,10 +33,6 @@ export function NavBar({ children }: any) {
 
   const handleHomeClick = () => {
     navigate("/");
-  };
-
-  const handleNavigationClick = (path: string) => {
-    navigate(path);
   };
 
   return (
@@ -132,68 +114,9 @@ export function NavBar({ children }: any) {
               </HoverCard.Dropdown>
             </HoverCard>
           )}
-
-          <Burger
-            opened={drawerOpened}
-            onClick={toggleDrawer}
-            hiddenFrom="sm"
-          />
         </Group>
       </header>
-      <Drawer
-        opened={drawerOpened}
-        onClose={closeDrawer}
-        size="100%"
-        padding="md"
-        title="Navigation"
-        hiddenFrom="sm"
-        zIndex={1000000}
-      >
-        <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
-          <Divider my="sm" />
 
-          <UnstyledButton className={classes.link} onClick={handleHomeClick}>
-            Home
-          </UnstyledButton>
-          <UnstyledButton className={classes.link} onClick={toggleLinks}>
-            <Center inline>
-              <Box component="span" mr={5}>
-                Features
-              </Box>
-              <IconChevronDown
-                style={{ width: rem(16), height: rem(16) }}
-                color={theme.colors.blue[6]}
-              />
-            </Center>
-          </UnstyledButton>
-
-          <Divider my="sm" />
-
-          {!token ? (
-            <Group justify="center">
-              <Button variant="default" onClick={handleSignIn}>
-                Log in
-              </Button>
-              <Button onClick={handleSignUp}>Sign up</Button>
-            </Group>
-          ) : (
-            <Group justify="center">
-              <Button
-                leftSection={<IconGardenCart></IconGardenCart>}
-                onClick={() => handleNavigationClick("/cart")}
-              >
-                Cart
-              </Button>
-              <Button
-                leftSection={<IconGardenCart></IconGardenCart>}
-                onClick={() => handleNavigationClick("/home")}
-              >
-                Log Out
-              </Button>
-            </Group>
-          )}
-        </ScrollArea>
-      </Drawer>
       <div>{children}</div>
     </Box>
   );
