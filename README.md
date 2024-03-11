@@ -2,6 +2,10 @@
 
 This repository contains a Food Order App project.
 
+# Vercel Demo Link
+
+https://food-order-app-fawn-six.vercel.app/
+
 ## Getting Started
 
 To get started with the project, follow these steps:
